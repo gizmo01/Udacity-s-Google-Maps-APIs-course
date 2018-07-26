@@ -35,23 +35,82 @@ API Course, Lesson 1 -->
         zoom: 13
       });
 
-      let tribeca = {
-        lat: 40.719526,
-        lng: -74.0089934
+      let locations = [{
+          title: 'Park Ave Penthouse',
+          location: {
+            lat: 40.861815,
+            lng: -73.88895
+          }
+        },
+        {
+          title: 'Chelsea Loft',
+          location: {
+            lat: 40.7465,
+            lng: -74.001374
+          }
+        },
+        {
+          title: 'Union Square Open Floor Plan',
+          location: {
+            lat: 40.736219,
+            lng: -73.990997
+          }
+        },
+        {
+          title: 'East Village Hip Studio',
+          location: {
+            lat: 40.726477,
+            lng: -73.981534
+          }
+        },
+        {
+          title: 'Tribeca Artsy Bachelor Pad',
+          location: {
+            lat: 40.716269,
+            lng: -74.008632
+          }
+        },
+        {
+          title: 'Chinatown Home Space',
+          location: {
+            lat: 40.715751,
+            lng: -73.997031
+          }
+        }
+      ]
+      let largeInfoWindow = new google.maps.InfoWindow();
+      let bounds = new google.maps.LatLngBounds();
+      let markers = [];
+      locations.map(location => {
+        //create a marker per location, and put into markers array
+        let marker = new google.maps.Marker({
+          map: map,
+          position: location.location,
+          title: location.title,
+          animation: google.maps.Animation.DROP
+        })
+        //push the marker to our array of markers
+        markers.push(marker);
+        //extends the boundaries of the map for each marker
+        bounds.extend(marker.position);
+        //create an infowindow event to open an infowindow at each marker
+        marker.addListener('click', function() {
+          populateInfoWindow(this, largeInfoWindow);
+        })
+      })
+      map.fitBounds(bounds);
+
+      function populateInfoWindow(marker, infowindow) {
+        if (infowindow.marker != marker) {
+          infowindow.marker = marker;
+          infowindow.setContent('<div>' + marker.title + '</div>');
+          infowindow.open(map, marker);
+          // infowindow.addListener('closeclick', function() {
+          //   infowindow.setMarker(null);
+          // });
+        }
       }
-      let marker = new google.maps.Marker({
-        position: tribeca,
-        map: map,
-        title: 'My first Marker!'
-      })
 
-
-      let infowindow = new google.maps.InfoWindow({
-        content: 'I am the info window!'
-      });
-      marker.addListener('click', function() {
-        infowindow.open(map, marker)
-      })
     };
   </script>
 
