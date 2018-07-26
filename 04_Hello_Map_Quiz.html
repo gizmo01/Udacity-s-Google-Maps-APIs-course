@@ -34,6 +34,7 @@ API Course, Lesson 1 -->
         },
         zoom: 13
       });
+
       let tribeca = {
         lat: 40.719526,
         lng: -74.0089934
@@ -43,7 +44,15 @@ API Course, Lesson 1 -->
         map: map,
         title: 'My first Marker!'
       })
-    }
+
+
+      let infowindow = new google.maps.InfoWindow({
+        content: 'I am the info window!'
+      });
+      marker.addListener('click', function() {
+        infowindow.open(map, marker)
+      })
+    };
   </script>
 
   <!--TODO: Load the JS API ASYNCHRONOUSLY below.-->
